@@ -44,23 +44,10 @@ for n_est in estimators_space:
     scores.append(np.mean(score))
     
 
-### find optimal border of n_estimators
-## i suppose, that there is no reason to increase
-## n_estimators, if ratio of growth of roc-score to growth of learning time less, than 10^-4
-diff_roc = np.diff(scores)
-diff_time = np.diff(time)
-droc_dt = np.divide(diff_roc, diff_time)
-i = 0
-OPTIMAL_DROC_DT = 0.0001
-while droc_dt[i] > OPTIMAL_DROC_DT:
-    i += 1
-n_estimators_optimal = estimators_space[i]
-
 ### save data to json
 metrics.append(estimators_space.tolist())
 metrics.append(scores)
 metrics.append(time)
-metrics.append([n_estimators_optimal,'Optimal n_estimators'])
 
 json.dump(metrics, open('gradient_boosting_data', 'w'))
 
